@@ -1,59 +1,46 @@
 public class Solution {
     public string PredictPartyVictory(string senate) {
         
-        // Count the number of each type of Senator to determine the winner
-        int rCount = senate.Count(c => c == 'R');
+        // Count of Each Type of Senator to check for Winner
+        int rCount = senate.Count(x => x == 'R');
         int dCount = senate.Length - rCount;
 
-        // Ban the candidate "toBan", immediate next to "startAt"
-        // If have to loop around, then it means next turn will be of
-        // senator at same index. Returns loop around boolean
-        bool ban(char toBan, int startAt) {
-            bool loopAround = false;
-            int pointer = startAt;
+        // To mark Banned Senators
+        bool[] banned = new bool[senate.Length];
 
-            while (pointer < senate.Length) {
-                if (pointer == 0) {
-                    loopAround = true;
-                }
-                if (senate[pointer] == toBan) {
-                    senate = senate.Remove(pointer, 1);
+        // Ban the candidate "toBan", immediate next to "startAt"
+        Action<char, int> ban = (toBan, startAt) => {
+            // Find the next eligible senator of "toBan" type
+            // On found, mark him as banned
+            while (true) {
+                if (senate[startAt] == toBan && !banned[startAt]) {
+                    banned[startAt] = true;
                     break;
                 }
-                pointer = (pointer + 1) % senate.Length;
+                startAt = (startAt + 1) % senate.Length;
             }
+        };
 
-            return loopAround;
-        }
+        // Turn of Senator at this Index
+        int turn = 0;
 
-        // Set the index of the current senator
-        int currentIndex = 0;
-
-        // Simulate the battle until a winner emerges
+        // While both parties have at least one senator
         while (rCount > 0 && dCount > 0) {
 
-            // Check if current senator is a member of Radiant
-            if (senate[currentIndex] == 'R') {
-                bool bannedSenatorBefore = ban('D', (currentIndex + 1) % senate.Length);
-                dCount--;
-                if (bannedSenatorBefore) {
-                    currentIndex--;
-                }
-            } 
-            // Current senator is a member of Dire
-            else {
-                bool bannedSenatorBefore = ban('R', (currentIndex + 1) % senate.Length);
-                rCount--;
-                if (bannedSenatorBefore) {
-                    currentIndex--;
+            if (!banned[turn]) {
+                if (senate[turn] == 'R') {
+                    ban('D', (turn + 1) % senate.Length);
+                    dCount--;
+                } else {
+                    ban('R', (turn + 1) % senate.Length);
+                    rCount--;
                 }
             }
 
-            // Move on to the next senator
-            currentIndex = (currentIndex + 1) % senate.Length;
+            turn = (turn + 1) % senate.Length;
         }
 
-        // Determine and return the winner
+        // Return Winner
         return dCount == 0 ? "Radiant" : "Dire";
     }
 }
