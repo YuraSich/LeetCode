@@ -3,8 +3,7 @@ public class Solution {
         int result = 0;
         for (int i = 0; i < s.Length; i++)
         {
-            char cur = s[i];
-            switch (cur)
+            switch (s[i])
             {
                 case 'I':
                     result += 1;
