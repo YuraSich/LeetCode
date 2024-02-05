@@ -1,13 +1,16 @@
 public class Solution {
     public int FirstUniqChar(string s) {
-        var unique = new Dictionary<char, int>();
-        foreach (var x in s)
+        var good = new HashSet<char>();
+        var bad = new HashSet<char>();
+        foreach (var x in s.Where(x => !bad.Contains(x)))
         {
-            unique.TryAdd(x, 0);
-            unique[x] += 1;
+            if (!good.Add(x))
+            {
+                good.Remove(x);
+                bad.Add(x);
+            }
         }
 
-        KeyValuePair<char, int>? rez = unique.FirstOrDefault(x => x.Value == 1);
-        return rez == null ? -1 : s.IndexOf(rez.Value.Key);
+        return good.Count != 0 ? good.Min(s.IndexOf) : -1;
     }
 }
