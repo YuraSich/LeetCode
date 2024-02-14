@@ -1,7 +1,7 @@
 public class Solution {
     public int[] RearrangeArray(int[] nums)
     {
-        var rez = new List<int>(nums.Length);
+        var rez = new List<int>();
         using var p = nums.Where(x => x > 0).GetEnumerator();
         using var n = nums.Where(x => x < 0).GetEnumerator();
         while (p.MoveNext() & n.MoveNext())
