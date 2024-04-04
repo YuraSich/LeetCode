@@ -1,14 +1,16 @@
 public class Solution {
     public int MaxDepth(string s) {
-    int maxDepth = 0;
-    int depth = 0;
+     int maxDepth = 0;
+     int depth = 0;
 
      foreach (char c in s)
      {
          if (c == '(')
          {
-             depth++;
-             maxDepth = Math.Max(maxDepth, depth);
+             if (++depth > maxDepth)
+             {
+                 maxDepth = depth;
+             }
          }
          else if (c == ')')
          {
