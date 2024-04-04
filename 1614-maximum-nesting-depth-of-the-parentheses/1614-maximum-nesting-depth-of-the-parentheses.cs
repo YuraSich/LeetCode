@@ -1,19 +1,21 @@
 public class Solution {
     public int MaxDepth(string s) {
-        int maxDepth = 0;
-        int currentDepth = 0;
-        Stack<char> stack = new Stack<char>();
-        
-        foreach (char c in s) {
-            if (c == '(') {
-                stack.Push(c);
-                currentDepth = stack.Count;
-                maxDepth = Math.Max(maxDepth, currentDepth);
-            } else if (c == ')') {
-                stack.Pop();
-            }
-        }
-        
-        return maxDepth;
+    int maxDepth = 0;
+    int depth = 0;
+
+     foreach (char c in s)
+     {
+         if (c == '(')
+         {
+             depth++;
+             maxDepth = Math.Max(maxDepth, depth);
+         }
+         else if (c == ')')
+         {
+             depth--;
+         }
+     }
+
+     return maxDepth;
     }
 }
