@@ -18,7 +18,7 @@ public class Solution {
              return root.val == 1;
          }
          return root.val == 3 ?
-            EvaluateTree(root.left) & EvaluateTree(root.right) :
-            EvaluateTree(root.left) | EvaluateTree(root.right);
+            EvaluateTree(root.left) && EvaluateTree(root.right) :
+            EvaluateTree(root.left) || EvaluateTree(root.right);
     }
 }
