@@ -2,16 +2,14 @@ public class Solution
 {
     public int MinBitFlips(int start, int goal) 
     {
-        int flips = 0;
-        while (start > 0 || goal > 0)
+         var s = start ^ goal;
+
+        var count = 0;
+        while (s > 0)
         {
-            if (start % 2 != goal % 2)
-            {
-                flips++;
-            }
-            start /= 2;
-            goal /= 2;
+            count += s % 2;
+            s /= 2;
         }
-        return flips;
+        return count;
     }
 }
